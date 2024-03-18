@@ -15,6 +15,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { getChatCompletion } from "@/api/chat";
@@ -54,7 +59,12 @@ export default function Homepage() {
         )}
 
         {content?.map((sentence: Sentence) => (
-          <span key="">{sentence[langueage]}</span>
+          <HoverCard key={sentence[langueage]}>
+            <HoverCardTrigger className="hover:underline me-3">
+              {sentence[langueage]}
+            </HoverCardTrigger>
+            <HoverCardContent>{sentence["English"]}</HoverCardContent>
+          </HoverCard>
         ))}
       </CardContent>
       <CardFooter className="flex justify-between">
