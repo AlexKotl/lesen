@@ -14,20 +14,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { getChatCompletion } from "@/api/chat";
 
+type Language = "English" | "German" | "Spanish";
+type Sentence = Record<Language, string>;
+type Level = "A1" | "A2" | "B1" | "B2";
+
 export default function Homepage() {
-  const [text, setText] = useState<string>("");
-  const [level, setLevel] = useState<string>("A1");
-  const [langueage, setLanguage] = useState<string>("German");
+  const [content, setContent] = useState<Sentence[]>();
+  const [level, setLevel] = useState<Level>("A1");
+  const [langueage, setLanguage] = useState<Language>("German");
+  const [alert, setAlert] = useState<string>();
 
   const generateText = async () => {
     const reply = await getChatCompletion(
-      `Write me text in easy ${langueage}, that equivalent to ${level} language level. Don't say additional comments.`
+      `Write me text in easy ${langueage}, that equivalent to ${level} language level. Don't say additional comments. Format text as array of sentences in JSON, using this format: [ {"${langueage}": "text",  "English": "text"} ... ]. Dont wrap in json code format.`
     );
-    setText(reply.content ?? "Failed to generate text");
+    try {
+      const sentences = JSON.parse(reply.content ?? "");
+      setContent(sentences);
+    } catch (e) {
+      setAlert("Failed to generate text");
+    }
   };
 
   return (
@@ -35,7 +46,17 @@ export default function Homepage() {
       <CardHeader>
         <CardTitle>Create new reading</CardTitle>
       </CardHeader>
-      <CardContent>{text ?? "..."}</CardContent>
+      <CardContent>
+        {alert && (
+          <Alert variant="destructive">
+            <AlertTitle>{alert}</AlertTitle>
+          </Alert>
+        )}
+
+        {content?.map((sentence: Sentence) => (
+          <span key="">{sentence[langueage]}</span>
+        ))}
+      </CardContent>
       <CardFooter className="flex justify-between">
         <Select value={langueage} onValueChange={setLanguage}>
           <SelectTrigger className="me-5">
