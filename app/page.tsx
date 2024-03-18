@@ -20,9 +20,11 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { getChatCompletion } from "@/api/chat";
+import Loading from "../components/loading";
 
 type Language = "English" | "German" | "Spanish";
 type Sentence = Record<Language, string>;
@@ -33,10 +35,12 @@ export default function Homepage() {
   const [level, setLevel] = useState<Level>("A1");
   const [langueage, setLanguage] = useState<Language>("German");
   const [alert, setAlert] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const generateText = async () => {
+    setIsLoading(true);
     const reply = await getChatCompletion(
-      `Write me text in easy ${langueage}, that equivalent to ${level} language level. Don't say additional comments. Format text as array of sentences in JSON, using this format: [ {"${langueage}": "text",  "English": "text"} ... ]. Dont wrap in json code format.`
+      `Write me story in easy ${langueage}, that equivalent to ${level} language level. Don't say additional comments. Format text as array of sentences in JSON, using this format: [ {"${langueage}": "text",  "English": "text"} ... ]. Dont wrap in json code format.`
     );
     try {
       const sentences = JSON.parse(reply.content ?? "");
@@ -44,6 +48,7 @@ export default function Homepage() {
     } catch (e) {
       setAlert("Failed to generate text");
     }
+    setIsLoading(false);
   };
 
   return (
@@ -58,14 +63,17 @@ export default function Homepage() {
           </Alert>
         )}
 
-        {content?.map((sentence: Sentence) => (
-          <HoverCard key={sentence[langueage]}>
-            <HoverCardTrigger className="hover:underline me-3">
-              {sentence[langueage]}
-            </HoverCardTrigger>
-            <HoverCardContent>{sentence["English"]}</HoverCardContent>
-          </HoverCard>
-        ))}
+        {isLoading && <Loading className="my-10" />}
+
+        {!isLoading &&
+          content?.map((sentence: Sentence) => (
+            <HoverCard key={sentence[langueage]}>
+              <HoverCardTrigger className="hover:underline cursor-pointer me-2">
+                {sentence[langueage]}
+              </HoverCardTrigger>
+              <HoverCardContent>{sentence["English"]}</HoverCardContent>
+            </HoverCard>
+          ))}
       </CardContent>
       <CardFooter className="flex justify-between">
         <Select value={langueage} onValueChange={setLanguage}>
@@ -90,7 +98,9 @@ export default function Homepage() {
           </SelectContent>
         </Select>
 
-        <Button onClick={generateText}>Generate</Button>
+        <Button onClick={generateText} disabled={isLoading}>
+          Generate
+        </Button>
       </CardFooter>
     </Card>
   );
