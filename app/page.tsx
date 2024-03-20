@@ -33,14 +33,14 @@ type Level = "A1" | "A2" | "B1" | "B2";
 export default function Homepage() {
   const [content, setContent] = useState<Sentence[]>();
   const [level, setLevel] = useState<Level>("A1");
-  const [langueage, setLanguage] = useState<Language>("German");
+  const [language, setLanguage] = useState<Language>("German");
   const [alert, setAlert] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
 
   const generateText = async () => {
     setIsLoading(true);
     const reply = await getChatCompletion(
-      `Write me story in easy ${langueage}, that equivalent to ${level} language level. Don't say additional comments. Format text as array of sentences in JSON, using this format: [ {"${langueage}": "text",  "English": "text"} ... ]. Dont wrap in json code format.`
+      `Write me story in easy ${language}, that equivalent to ${level} language level. Don't say additional comments. Format text as array of sentences in JSON, using this format: [ {"${language}": "text",  "English": "text"} ... ]. Dont wrap in json code format.`
     );
     try {
       const sentences = JSON.parse(reply.content ?? "");
@@ -67,16 +67,16 @@ export default function Homepage() {
 
         {!isLoading &&
           content?.map((sentence: Sentence) => (
-            <HoverCard key={sentence[langueage]}>
+            <HoverCard key={sentence[language]}>
               <HoverCardTrigger className="hover:underline cursor-pointer me-2">
-                {sentence[langueage]}
+                {sentence[language]}
               </HoverCardTrigger>
               <HoverCardContent>{sentence["English"]}</HoverCardContent>
             </HoverCard>
           ))}
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Select value={langueage} onValueChange={setLanguage}>
+        <Select value={language} onValueChange={setLanguage}>
           <SelectTrigger className="me-5">
             <SelectValue placeholder="Select Language" />
           </SelectTrigger>
