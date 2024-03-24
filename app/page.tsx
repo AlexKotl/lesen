@@ -20,10 +20,10 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { getChatCompletion } from "@/api/chat";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import Loading from "../components/loading";
 
 type Language = "English" | "German" | "Spanish";
@@ -40,7 +40,7 @@ export default function Homepage() {
   const generateText = async () => {
     setIsLoading(true);
     const reply = await getChatCompletion(
-      `Write me story in easy ${language}, that equivalent to ${level} language level. Don't say additional comments. Format text as array of sentences in JSON, using this format: [ {"${language}": "text",  "English": "text"} ... ]. Dont wrap in json code format.`
+      `Write me long story in easy ${language}, that equivalent to ${level} language level. Don't say additional comments. Format text as array of sentences in JSON, using this format: [ {"${language}": "text",  "English": "text"} ... ]. Dont wrap in json code format.`
     );
     try {
       const sentences = JSON.parse(reply.content ?? "");
@@ -99,6 +99,7 @@ export default function Homepage() {
         </Select>
 
         <Button onClick={generateText} disabled={isLoading}>
+          {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
           Generate
         </Button>
       </CardFooter>

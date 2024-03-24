@@ -2,5 +2,4 @@
 
 ## UI
 
-Add component to project:
-`npx shadcn-ui@latest add button`
+UI library used for the application: https://ui.shadcn.com/
