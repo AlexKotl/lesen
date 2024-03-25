@@ -27,13 +27,13 @@ export default function RootLayout({
             height={50}
             className="me-8"
           />
-          <Button variant="link">Home</Button>
-          <Button variant="link">About</Button>
-          <Button variant="link">Contacts</Button>
+          <Button variant="ghost">Home</Button>
+          <Button variant="ghost">About</Button>
+          <Button variant="ghost">Contacts</Button>
         </header>
         <div className="mx-auto max-w-4xl p-4 my-8">{children}</div>
         <footer className="text-center py-4">
-          <small> 2024 &copy; Your foreighn language daily reading</small>
+          <small> 2024 &copy; Your foreign language daily reading</small>
         </footer>
       </body>
     </html>
