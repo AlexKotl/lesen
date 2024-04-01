@@ -73,6 +73,11 @@ export default function Homepage() {
             app
           </Alert>
         )}
+        {!isLoading && !content && chatApiToken && (
+          <Alert>
+            Press <b>Generate</b> button to create a story.
+          </Alert>
+        )}
         {isLoading && <Loading className="my-10" />}
         {!isLoading &&
           content?.map((sentence: Sentence) => (
