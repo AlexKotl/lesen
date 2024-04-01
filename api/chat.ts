@@ -1,21 +1,23 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  // TODO: Refactor this with API proxy route to hide api key
-  dangerouslyAllowBrowser: true,
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-});
-
 async function getChatCompletion(
   prompt: string,
-  context: string | null = null
+  options: {
+    context?: string;
+    token: string;
+  }
 ) {
+  const openai = new OpenAI({
+    dangerouslyAllowBrowser: true,
+    apiKey: options.token,
+  });
+
   const chatCompletion = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages: [
       {
         role: "system",
-        content: context ?? "",
+        content: options.context ?? "",
       },
       {
         role: "user",
