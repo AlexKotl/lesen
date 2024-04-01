@@ -1,7 +1,6 @@
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  // TODO: Refactor this with API proxy route to hide api key
   dangerouslyAllowBrowser: true,
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
 });

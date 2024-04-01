@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import { Button } from "@/components/ui/button";
+import Settings from "@/components/settings";
 import "./globals.css";
+import { Alert } from "@/components/ui/alert";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +32,7 @@ export default function RootLayout({
           <Button variant="ghost">Home</Button>
           <Button variant="ghost">About</Button>
           <Button variant="ghost">Contacts</Button>
+          <Settings />
         </header>
         <div className="mx-auto max-w-4xl p-4 my-8">{children}</div>
         <footer className="text-center py-4">
