@@ -42,7 +42,10 @@ export default function Homepage() {
   const generateText = async () => {
     setIsLoading(true);
     const reply = await getChatCompletion(
-      `Write me exciting story in easy ${language}, that equivalent to ${level} language level. Don't say additional comments. Format text as array of sentences in JSON, using this format: [ {"${language}": "text",  "English": "text"} ... ]. Dont wrap in json code format.`
+      `Write me exciting story in easy ${language}, that equivalent to ${level} language level. Don't say additional comments. Format text as array of sentences in JSON, using this format: [ {"${language}": "text",  "English": "text"} ... ]. Dont wrap in json code format.`,
+      {
+        token: chatApiToken,
+      }
     );
     try {
       const sentences = JSON.parse(reply.content ?? "");
