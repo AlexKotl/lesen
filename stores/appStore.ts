@@ -5,7 +5,9 @@ interface AppState {
   chatApiToken: null | string;
   setChatApiToken: (chatApiToken: string) => void;
 }
-const chatApiTokenInitial = localStorage?.getItem(LOCAL_STORAGE.CHAT_API_TOKEN);
+const chatApiTokenInitial = process.browser
+  ? localStorage.getItem(LOCAL_STORAGE.CHAT_API_TOKEN)
+  : "";
 
 export const useAppStore = create<AppState>()((set) => ({
   chatApiToken: chatApiTokenInitial,
