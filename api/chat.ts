@@ -14,6 +14,7 @@ async function getChatCompletion(
 
   const chatCompletion = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
+    max_tokens: 1000,
     messages: [
       {
         role: "system",

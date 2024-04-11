@@ -90,6 +90,7 @@ export default function Homepage() {
           ))}
       </CardContent>
       <CardFooter className="flex justify-between">
+        {/* @ts-ignore */}
         <Select value={language} onValueChange={setLanguage}>
           <SelectTrigger className="me-5">
             <SelectValue placeholder="Select Language" />
@@ -101,6 +102,7 @@ export default function Homepage() {
           </SelectContent>
         </Select>
 
+        {/* @ts-ignore */}
         <Select value={level} onValueChange={setLevel}>
           <SelectTrigger className="me-5">
             <SelectValue placeholder="Select Level" />
